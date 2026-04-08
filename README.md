@@ -1,36 +1,62 @@
-# ullr Developer Portal (Static)
+# Quiz Game
 
-Static HTML/CSS/JS implementation of a developer portal.
+Multiplayer quiz game with:
 
-## Included templates
+- TV screen at `/tv` (host controls + scoreboard)
+- Phone screen at `/play` (players join + answer)
+- Real-time game state over Socket.IO
 
-- Homepage: `index.html`
-- Documentation hub: `docs/index.html`
-- Guide article template: `docs/guides/first-app.html`
-- API reference template: `docs/api/authentication.html`
+This app uses a custom server (`server.ts`) to run Next.js and Socket.IO on the same port.
 
-## Run locally
+## Prerequisites
 
-Use any static server. Two options:
+- Node.js 20+ (recommended: Node 22 LTS)
+- npm (or another package manager)
+
+## Install
 
 ```bash
-cd /Users/sac63/ullr-dev-portal
-python3 -m http.server 8080
+npm install
 ```
 
-Then open `http://localhost:8080`.
+## Run In Development
 
-## Design direction
+If phones join over local network, set your machine IP in `ALLOWED_DEV_ORIGINS`:
 
-- Discovery-first homepage with capability cards, updates, and quickstarts
-- Documentation shell with sidebar, breadcrumbs, and in-page table of contents
-- Shared design tokens in `assets/css/styles.css`
-- Small interaction script in `assets/js/main.js` (mobile menu + active nav)
+```bash
+ALLOWED_DEV_ORIGINS=192.168.1.50 npm run dev
+```
 
-## Next steps
+You can also provide multiple comma-separated origins:
 
-1. Replace placeholder links and copy with real ullr product content.
-2. Add JSON-based client-side search index.
-3. Add syntax highlighting for code blocks.
-4. Add accessibility and Lighthouse checks in CI.
-# vigilant-pancake
+```bash
+ALLOWED_DEV_ORIGINS=192.168.1.50,192.168.1.51 npm run dev
+```
+
+Then open:
+
+- TV: `http://localhost:3000/tv`
+- Phone (same machine): `http://localhost:3000/play`
+- Phone (same Wi-Fi): `http://<your-local-ip>:3000/play`
+
+## Build And Run (Production)
+
+```bash
+npm run build
+npm run start
+```
+
+Production start runs `dist/server.js` so Socket.IO is active.
+
+## Scripts
+
+- `npm run dev` - Start custom server with ts-node
+- `npm run build` - Build Next app and compile server TypeScript to `dist/`
+- `npm run start` - Start compiled custom server in production mode
+- `npm run lint` - Run ESLint
+
+## Notes
+
+- Game state is in-memory only. Restarting the server resets games.
+- Max players is currently 8.
+- Ordering question thumbnails use external Wikimedia image URLs.

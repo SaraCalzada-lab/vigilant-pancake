@@ -1,26 +1,97 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-background: #050510;
+  --color-foreground: #f0f0f5;
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  /* Answer option colors — vibrant on dark */
+  --color-option-a: #ff6b8a;
+  --color-option-b: #5b8def;
+  --color-option-c: #ffb830;
+  --color-option-d: #45d483;
+
+  /* Accent */
+  --color-accent: #a78bfa;
+  --color-accent-bright: #c4b5fd;
+
+  /* Glass */
+  --color-glass: rgba(255, 255, 255, 0.06);
+  --color-glass-border: rgba(255, 255, 255, 0.1);
+  --color-glass-strong: rgba(255, 255, 255, 0.1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* 4-point mesh gradient background */
+.bg-mesh {
+  background-color: #050510;
+  background-image:
+    radial-gradient(ellipse at 0% 0%, rgba(88, 28, 135, 0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 0%, rgba(30, 58, 138, 0.35) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(13, 90, 100, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 0% 100%, rgba(120, 20, 80, 0.3) 0%, transparent 50%);
+}
+
+/* Animated subtle version for phone */
+.bg-mesh-animated {
+  background-color: #050510;
+  background-image:
+    radial-gradient(ellipse at 0% 0%, rgba(88, 28, 135, 0.4) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 0%, rgba(30, 58, 138, 0.35) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(13, 90, 100, 0.3) 0%, transparent 50%),
+    radial-gradient(ellipse at 0% 100%, rgba(120, 20, 80, 0.3) 0%, transparent 50%);
+  animation: meshShift 12s ease-in-out infinite alternate;
+}
+
+@keyframes meshShift {
+  0% {
+    background-image:
+      radial-gradient(ellipse at 0% 0%, rgba(88, 28, 135, 0.4) 0%, transparent 50%),
+      radial-gradient(ellipse at 100% 0%, rgba(30, 58, 138, 0.35) 0%, transparent 50%),
+      radial-gradient(ellipse at 100% 100%, rgba(13, 90, 100, 0.3) 0%, transparent 50%),
+      radial-gradient(ellipse at 0% 100%, rgba(120, 20, 80, 0.3) 0%, transparent 50%);
+  }
+  100% {
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(88, 28, 135, 0.45) 0%, transparent 55%),
+      radial-gradient(ellipse at 80% 10%, rgba(30, 58, 138, 0.4) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 85%, rgba(13, 90, 100, 0.35) 0%, transparent 55%),
+      radial-gradient(ellipse at 10% 90%, rgba(120, 20, 80, 0.35) 0%, transparent 55%);
   }
 }
 
+/* Glass card */
+.glass {
+  background: var(--color-glass);
+  border: 1px solid var(--color-glass-border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.glass-strong {
+  background: var(--color-glass-strong);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* Glow ring for timer */
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(255, 59, 48, 0.4); }
+  50% { box-shadow: 0 0 40px rgba(255, 59, 48, 0.8); }
+}
+
+.timer-danger {
+  animation: pulseGlow 1s ease-in-out infinite;
+}
+
+/* Progress bar for timer */
+@keyframes timerShrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--color-foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }

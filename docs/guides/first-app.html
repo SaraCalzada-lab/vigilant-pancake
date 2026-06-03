@@ -3,8 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Build Your First App | ullr Documentation</title>
-    <meta name="description" content="Step-by-step guide to build your first app with ullr." />
+    <title>Step by Step First Experience | ullr Build</title>
+    <meta
+      name="description"
+      content="Interaction-focused walkthrough for your first ullr phone-to-TV experience."
+    />
     <link rel="stylesheet" href="../../assets/css/styles.css" />
   </head>
   <body>
@@ -25,9 +28,9 @@
         </button>
         <nav id="primary-navigation" class="main-nav" data-main-nav>
           <a href="../../index.html">Home</a>
-          <a href="../index.html">Documentation</a>
-          <a href="index.html">Guides</a>
-          <a href="../api/authentication.html">API</a>
+          <a href="../index.html">Platform</a>
+          <a href="index.html">Build</a>
+          <a href="../api/authentication.html">Reference</a>
         </nav>
         <div class="header-actions">
           <div class="search-shell" data-search-expandable>
@@ -67,82 +70,85 @@
         <aside class="sidebar" aria-label="Guide navigation">
           <h3>This guide</h3>
           <ul class="nav-list">
-            <li><a href="#prepare">Prepare environment</a></li>
-            <li><a href="#create-session">Create session</a></li>
-            <li><a href="#instrumentation">Add instrumentation</a></li>
-            <li><a href="#ui-auth">Integrate UI auth</a></li>
+            <li><a href="#choose-moment">Choose one shared moment</a></li>
+            <li><a href="#map-controls">Map phone controls</a></li>
+            <li><a href="#run-loop">Run the interaction loop</a></li>
+            <li><a href="#expand-multiplayer">Expand to multiplayer</a></li>
+            <li><a href="#polish">Polish for the living room</a></li>
           </ul>
         </aside>
 
         <article class="doc-main" aria-labelledby="guide-title">
           <p class="breadcrumb">
-            <a href="../../index.html">Home</a> / <a href="../index.html">Documentation</a> /
-            Guides / Build your first app
+            <a href="../../index.html">Home</a> / <a href="index.html">Build</a> / Step by step first experience
           </p>
-          <h1 id="guide-title">Build your first app with ullr</h1>
+          <h1 id="guide-title">Step by step first experience</h1>
           <div class="meta-row">
             <span class="meta-chip">Guide</span>
             <span class="meta-chip">Beginner</span>
-            <span class="meta-chip">Estimated time 20 min</span>
+            <span class="meta-chip">Estimated time 15 min</span>
             <span class="meta-chip">Updated 03 Jun 2026</span>
           </div>
           <p>
-            This tutorial walks through creating a server session, sending telemetry, and wiring
-            frontend authentication hooks.
+            This walkthrough helps you build one complete phone-to-TV interaction without backend
+            authentication setup. Keep the scope small and focus on feel.
           </p>
 
-          <h2 id="prepare">1. Prepare environment</h2>
+          <h2 id="choose-moment">1. Choose one shared moment</h2>
           <p>
-            Install the ullr SDK and export your token. Keep scope minimal for local development.
+            Pick one moment everyone in the room understands instantly. Good starting examples are
+            vote, buzz-in, or swipe-to-react.
           </p>
-          <pre><code>npm install @ullr/sdk
-export ullr_TOKEN="dev_***"
-export ullr_PROJECT="weather-console"</code></pre>
+          <div class="callout">Aim for one action and one visible TV reaction in the first version.</div>
 
-          <h2 id="create-session">2. Create a session</h2>
+          <h2 id="map-controls">2. Map phone controls</h2>
           <p>
-            Use your backend to exchange a machine token for a short-lived scoped session.
+            Design controls around thumb-friendly input on phone. Keep labels short and map each
+            control to one clear outcome.
           </p>
-          <pre><code>import { UllrClient } from "@ullr/sdk";
 
-const client = new UllrClient({ token: process.env.ullr_TOKEN });
-
-const session = await client.sessions.create({
-  project: process.env.ullr_PROJECT,
-  scopes: ["events:write", "metrics:read"],
-});
-
-console.log(session.id);</code></pre>
-
-          <h2 id="instrumentation">3. Add instrumentation</h2>
+          <h2 id="run-loop">3. Run the interaction loop</h2>
           <p>
-            Emit events from the app edge and verify event delivery through your dashboard.
+            Connect phone and TV on the same network, run a full loop, and measure response time
+            by feel. If any step feels delayed or unclear, simplify the interaction.
           </p>
-          <div class="callout">
-            Capture a request id in each event payload to simplify debugging and correlation.
-          </div>
 
-          <h2 id="ui-auth">4. Integrate UI authentication</h2>
+          <h2 id="expand-multiplayer">4. Expand to multiplayer</h2>
           <p>
-            Use the session token for short-lived browser actions and refresh through your backend,
-            not directly from the browser.
+            Add a second player and check that both phones can interact without confusing ownership
+            on TV.
           </p>
+          <ul>
+            <li>Keep player identity visible.</li>
+            <li>Avoid private-only details on TV.</li>
+            <li>Verify turn order and shared state updates.</li>
+          </ul>
+
+          <h2 id="polish">5. Polish for the living room</h2>
+          <p>Do one final pass from couch distance with real devices in hand.</p>
+          <ul>
+            <li>Increase contrast and text size where needed.</li>
+            <li>Remove non-essential UI from TV.</li>
+            <li>Keep phone feedback immediate after each action.</li>
+          </ul>
 
           <h2>See also</h2>
           <ul>
-            <li><a href="../api/authentication.html">Authentication API reference</a></li>
-            <li><a href="../index.html#operations">Operations playbook</a></li>
-            <li><a href="../index.html#release-notes">Release notes</a></li>
+            <li><a href="get-started.html">Get started</a></li>
+            <li><a href="connection-flow.html">Connection flow</a></li>
+            <li><a href="design-considerations.html">Design considerations</a></li>
+            <li><a href="../api/authentication.html">Reference API (optional advanced)</a></li>
           </ul>
         </article>
 
         <aside class="toc" aria-label="Guide table of contents">
           <h3>On this page</h3>
           <ul class="nav-list">
-            <li><a href="#prepare">Prepare environment</a></li>
-            <li><a href="#create-session">Create session</a></li>
-            <li><a href="#instrumentation">Add instrumentation</a></li>
-            <li><a href="#ui-auth">Integrate UI auth</a></li>
+            <li><a href="#choose-moment">Choose one shared moment</a></li>
+            <li><a href="#map-controls">Map phone controls</a></li>
+            <li><a href="#run-loop">Run the interaction loop</a></li>
+            <li><a href="#expand-multiplayer">Expand to multiplayer</a></li>
+            <li><a href="#polish">Polish for the living room</a></li>
           </ul>
         </aside>
       </div>

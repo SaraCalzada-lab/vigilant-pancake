@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Documentation | ullr Developer Portal</title>
-    <meta name="description" content="Documentation index for ullr platform and APIs." />
+    <title>Platform | ullr Developer Portal</title>
+    <meta name="description" content="Understand how ullr works across phone and TV." />
     <link rel="stylesheet" href="../assets/css/styles.css" />
   </head>
   <body>
@@ -25,9 +25,9 @@
         </button>
         <nav id="primary-navigation" class="main-nav" data-main-nav>
           <a href="../index.html">Home</a>
-          <a href="index.html">Documentation</a>
-          <a href="guides/index.html">Guides</a>
-          <a href="api/authentication.html">API</a>
+          <a href="index.html">Platform</a>
+          <a href="guides/index.html">Build</a>
+          <a href="api/authentication.html">Reference</a>
         </nav>
         <div class="header-actions">
           <div class="search-shell" data-search-expandable>
@@ -57,73 +57,56 @@
               </div>
             </div>
           </div>
-          <a class="button button-primary" href="guides/get-started.html">Get started</a>
+          <a class="button button-primary" href="guides/get-started.html">Go to build</a>
         </div>
       </div>
     </header>
 
     <main id="main" class="container">
       <div class="docs-layout">
-        <aside class="sidebar" aria-label="Documentation sections">
-          <h3>Documentation</h3>
-          <ul class="nav-list nav-list-primary" data-docs-nav>
+        <aside class="sidebar" aria-label="Platform sections">
+          <h3>Platform</h3>
+          <ul class="nav-list nav-list-primary">
             <li><a href="#overview">Overview</a></li>
-            <li><a href="guides/get-started.html">Get started</a></li>
-            <li><a href="#getting-started">Start building</a></li>
-            <li class="nav-item-has-children">
-              <a href="#architecture" data-submenu-toggle="architecture-submenu" aria-expanded="false"
-                >Architecture</a
-              >
-              <ul id="architecture-submenu" class="nav-sublist" hidden>
-                <li><a href="#architecture-high-level">High-level architecture</a></li>
-                <li>
-                  <a href="#architecture-interaction-model">Multi-device interaction model</a>
-                </li>
-                <li><a href="#architecture-end-to-end-flow">End-to-end flow</a></li>
-                <li><a href="#architecture-technical-flow">Technical flow</a></li>
-                <li><a href="#architecture-hero-summary">One-slide hero summary</a></li>
-              </ul>
-            </li>
-            <li><a href="#operations">Operations</a></li>
-            <li><a href="api/authentication.html">API reference</a></li>
-            <li><a href="#release-notes">Release notes</a></li>
+            <li><a href="#core-concept">Core concept</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#multiplayer">Multiplayer model</a></li>
+            <li><a href="#constraints">Constraints</a></li>
           </ul>
         </aside>
 
         <section class="doc-main" aria-labelledby="overview">
-          <h2 id="overview">Documentation overview</h2>
+          <p class="breadcrumb"><a href="../index.html">Home</a> / Platform / Overview</p>
+          <h1 id="overview">Platform overview</h1>
           <p>
-            Use this page as your in-product map of ullr architecture and operating guidance. First-
-            level sections stay visible in the left menu, and architecture subsections expand beneath
-            it for deeper navigation.
+            ullr is a multi-device interaction platform. The phone runs the experience, the TV
+            displays it, and interaction lives on the phone.
           </p>
 
-          <h2 id="getting-started">Start building</h2>
+          <h2 id="core-concept">Core concept</h2>
           <p>
-            Start with the first app walkthrough to connect a phone-powered experience and stream it
-            to TV output, then return to this page for architecture and operational patterns.
+            Think of ullr as one shared room experience split across two screens. The phone handles
+            logic and input. The TV is the shared display output.
           </p>
-          <p><a class="button button-secondary" href="guides/first-app.html">Open first app guide</a></p>
+          <div class="callout">
+            <strong>Mental model:</strong> phone equals engine and controller, TV equals display.
+          </div>
 
           <h2 id="architecture">Core architecture</h2>
           <p>
-            ullr is designed so the phone runs the experience and the TV simply displays it. This
-            creates a low-friction living room setup where each player keeps private controls on their
-            own device while everyone shares one big-screen output.
+            The system is designed around local, low-latency communication between devices on the
+            same network. Rendering and input are coordinated on phone while TV playback remains
+            lightweight.
           </p>
 
-          <h3 id="architecture-high-level">High-level architecture</h3>
+          <h3>High-level architecture</h3>
           <ul>
             <li>Phone app: runs rendering, game logic, and controller input handling.</li>
             <li>TV viewer: receives streamed output and presents the shared experience.</li>
             <li>Transport: local-network streaming for low-latency screen output.</li>
           </ul>
 
-          <div class="callout">
-            <strong>Key message:</strong> The phone runs the experience. The TV simply displays it.
-          </div>
-
-          <h3 id="architecture-interaction-model">Multi-device interaction model</h3>
+          <h2 id="multiplayer">Multiplayer model</h2>
           <p>
             ullr supports multiple player phones joining the same session. Each phone acts as both a
             private screen and an input surface, while the TV remains the shared view of the game world.
@@ -134,18 +117,8 @@
             <li>TV output: synchronized shared scene for all players.</li>
           </ul>
 
-          <h3 id="architecture-end-to-end-flow">End-to-end flow</h3>
-          <ol>
-            <li>Start on phone.</li>
-            <li>Launch the experience.</li>
-            <li>Connect to TV via same-network pairing.</li>
-            <li>Stream experience to TV.</li>
-            <li>Interact from phone inputs.</li>
-            <li>Allow additional players to join from their phones.</li>
-            <li>Keep TV focused on shared experience output.</li>
-          </ol>
-
-          <table aria-label="ullr architecture constraints">
+          <h2 id="constraints">Constraints</h2>
+          <table aria-label="ullr platform constraints">
             <thead>
               <tr>
                 <th>Constraint</th>
@@ -159,7 +132,7 @@
               </tr>
               <tr>
                 <td>Phone handles rendering and processing</td>
-                <td>Keeps compute on the player device and simplifies TV app footprint.</td>
+                <td>Keeps compute on the player device and simplifies TV viewer requirements.</td>
               </tr>
               <tr>
                 <td>TV is display-only</td>
@@ -167,67 +140,16 @@
               </tr>
             </tbody>
           </table>
-
-          <h3 id="architecture-technical-flow">Technical flow</h3>
-          <ul>
-            <li>Phone runtime renders game frames and captures touch, motion, and media inputs.</li>
-            <li>WebRTC stream carries video and audio over the local network.</li>
-            <li>TV viewer receives and displays output in near real time.</li>
-          </ul>
-
-          <h3 id="architecture-hero-summary">One-slide hero summary</h3>
-          <p><strong>Phone = engine + controller.</strong> It runs the experience and captures inputs.</p>
-          <p><strong>TV = display.</strong> It presents the shared living room view.</p>
-          <p><strong>Multiple phones = multiplayer.</strong> Each player joins with their own device.</p>
-
-          <h3>Slide title options</h3>
-          <ul>
-            <li>How ullr Works</li>
-            <li>From Phone to Big Screen</li>
-            <li>Reimagining the living room: Phone-powered TV gaming</li>
-          </ul>
-
-          <h2 id="operations">Operations</h2>
-          <p>Operational playbooks for platform engineers and SRE teams.</p>
-          <ul>
-            <li>Incident response and error code diagnostics</li>
-            <li>Health checks and service limits</li>
-            <li>Deployment ring strategy and rollback policies</li>
-          </ul>
-
-          <h2 id="deployment">Deployment</h2>
-          <p>Release orchestration patterns, staged rollout controls, and rollback automation.</p>
-
-          <h2 id="tooling">Tooling</h2>
-          <p>CLI usage, SDK version policy, and local environment setup standards.</p>
-
-          <h2 id="security">Security</h2>
-          <p>
-            Security guidance for scope design, credential rotation, audit exports, and policy
-            controls.
-          </p>
-
-          <h2 id="release-notes">Release notes</h2>
-          <p>Track SDK and API changes, deprecations, and migration windows.</p>
-
-          <h2 id="events">Events</h2>
-          <p>Product office hours, architecture clinics, and release deep-dive sessions.</p>
-
-          <h2 id="changelog">Changelog</h2>
-          <p>Chronological updates to docs content, examples, and API recommendations.</p>
-
-          <h2 id="community">Community</h2>
-          <p>Office hours, forum support, and sample app repositories.</p>
         </section>
 
         <aside class="toc" aria-label="Topics in this page">
           <h3>Topics in this page</h3>
           <ul class="nav-list">
-            <li><a href="#getting-started">Start building</a></li>
-            <li><a href="#architecture">Core architecture</a></li>
-            <li><a href="#operations">Operations</a></li>
-            <li><a href="#release-notes">Release notes</a></li>
-            <li><a href="#community">Community</a></li>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#core-concept">Core concept</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#multiplayer">Multiplayer model</a></li>
+            <li><a href="#constraints">Constraints</a></li>
           </ul>
         </aside>
       </div>

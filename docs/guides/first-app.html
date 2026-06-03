@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Build Your First App | ULLR Documentation</title>
+    <meta name="description" content="Step-by-step guide to build your first app with ULLR." />
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="../../index.html" aria-label="ULLR home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          ULLR Developers
+        </a>
+        <button
+          class="menu-toggle"
+          data-menu-toggle
+          aria-expanded="false"
+          aria-controls="primary-navigation"
+        >
+          Menu
+        </button>
+        <nav id="primary-navigation" class="main-nav" data-main-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../index.html">Documentation</a>
+          <a href="first-app.html">Guides</a>
+          <a href="../api/authentication.html">API</a>
+        </nav>
+        <div class="header-actions">
+          <a class="search-pill" href="../index.html">Search docs</a>
+          <a class="button button-primary" href="../api/authentication.html">Open API</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="container">
+      <div class="docs-layout">
+        <aside class="sidebar" aria-label="Guide navigation">
+          <h3>Guides</h3>
+          <ul class="nav-list">
+            <li><a class="active" href="first-app.html">Build your first app</a></li>
+            <li><a href="#prepare">Prepare environment</a></li>
+            <li><a href="#create-session">Create session</a></li>
+            <li><a href="#instrumentation">Add instrumentation</a></li>
+            <li><a href="#ui-auth">Integrate UI auth</a></li>
+          </ul>
+        </aside>
+
+        <article class="doc-main" aria-labelledby="guide-title">
+          <p class="breadcrumb">
+            <a href="../../index.html">Home</a> / <a href="../index.html">Documentation</a> /
+            Guides / Build your first app
+          </p>
+          <h1 id="guide-title">Build your first app with ULLR</h1>
+          <div class="meta-row">
+            <span class="meta-chip">Guide</span>
+            <span class="meta-chip">Beginner</span>
+            <span class="meta-chip">Estimated time 20 min</span>
+            <span class="meta-chip">Updated 03 Jun 2026</span>
+          </div>
+          <p>
+            This tutorial walks through creating a server session, sending telemetry, and wiring
+            frontend authentication hooks.
+          </p>
+
+          <h2 id="prepare">1. Prepare environment</h2>
+          <p>
+            Install the ULLR SDK and export your token. Keep scope minimal for local development.
+          </p>
+          <pre><code>npm install @ullr/sdk
+export ULLR_TOKEN="dev_***"
+export ULLR_PROJECT="weather-console"</code></pre>
+
+          <h2 id="create-session">2. Create a session</h2>
+          <p>
+            Use your backend to exchange a machine token for a short-lived scoped session.
+          </p>
+          <pre><code>import { UllrClient } from "@ullr/sdk";
+
+const client = new UllrClient({ token: process.env.ULLR_TOKEN });
+
+const session = await client.sessions.create({
+  project: process.env.ULLR_PROJECT,
+  scopes: ["events:write", "metrics:read"],
+});
+
+console.log(session.id);</code></pre>
+
+          <h2 id="instrumentation">3. Add instrumentation</h2>
+          <p>
+            Emit events from the app edge and verify event delivery through your dashboard.
+          </p>
+          <div class="callout">
+            Capture a request id in each event payload to simplify debugging and correlation.
+          </div>
+
+          <h2 id="ui-auth">4. Integrate UI authentication</h2>
+          <p>
+            Use the session token for short-lived browser actions and refresh through your backend,
+            not directly from the browser.
+          </p>
+
+          <h2>See also</h2>
+          <ul>
+            <li><a href="../api/authentication.html">Authentication API reference</a></li>
+            <li><a href="../index.html#operations">Operations playbook</a></li>
+            <li><a href="../index.html#release-notes">Release notes</a></li>
+          </ul>
+        </article>
+
+        <aside class="toc" aria-label="Guide table of contents">
+          <h3>On this page</h3>
+          <ul class="nav-list">
+            <li><a href="#prepare">Prepare environment</a></li>
+            <li><a href="#create-session">Create session</a></li>
+            <li><a href="#instrumentation">Add instrumentation</a></li>
+            <li><a href="#ui-auth">Integrate UI auth</a></li>
+          </ul>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-bottom">Copyright 2026 ULLR.</div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+  </body>
+</html>

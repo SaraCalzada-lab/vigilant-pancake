@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentation | ULLR Developer Portal</title>
+    <meta name="description" content="Documentation index for ULLR platform and APIs." />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="../index.html" aria-label="ULLR home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          ULLR Developers
+        </a>
+        <button
+          class="menu-toggle"
+          data-menu-toggle
+          aria-expanded="false"
+          aria-controls="primary-navigation"
+        >
+          Menu
+        </button>
+        <nav id="primary-navigation" class="main-nav" data-main-nav>
+          <a href="../index.html">Home</a>
+          <a href="index.html">Documentation</a>
+          <a href="guides/first-app.html">Guides</a>
+          <a href="api/authentication.html">API</a>
+        </nav>
+        <div class="header-actions">
+          <a class="search-pill" href="#">Search docs</a>
+          <a class="button button-primary" href="guides/first-app.html">Start guide</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="container">
+      <div class="docs-layout">
+        <aside class="sidebar" aria-label="Documentation sections">
+          <h3>Documentation</h3>
+          <ul class="nav-list">
+            <li><a class="active" href="index.html">Overview</a></li>
+            <li><a href="guides/first-app.html">Getting started</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#operations">Operations</a></li>
+            <li><a href="api/authentication.html">API reference</a></li>
+            <li><a href="#release-notes">Release notes</a></li>
+          </ul>
+        </aside>
+
+        <section class="doc-main" aria-labelledby="doc-title">
+          <p class="breadcrumb"><a href="../index.html">Home</a> / Documentation</p>
+          <h1 id="doc-title">ULLR Documentation</h1>
+          <div class="meta-row">
+            <span class="meta-chip">Hub</span>
+            <span class="meta-chip">Estimated read 8 min</span>
+            <span class="meta-chip">Last updated 03 Jun 2026</span>
+          </div>
+          <p>
+            Use this hub to navigate ULLR foundations, integration patterns, operations, and detailed
+            API behavior.
+          </p>
+
+          <h2 id="getting-started">Getting started</h2>
+          <div class="card-grid">
+            <article class="card">
+              <span class="badge">Guide</span>
+              <h3>Build your first app</h3>
+              <p>Generate a token, post events, and verify delivery in one workflow.</p>
+              <a href="guides/first-app.html">Open guide</a>
+            </article>
+            <article class="card">
+              <span class="badge">Concept</span>
+              <h3>Security model</h3>
+              <p>Understand trust boundaries, token scopes, and policy inheritance.</p>
+              <a href="#security">Read concept</a>
+            </article>
+            <article class="card">
+              <span class="badge">Reference</span>
+              <h3>Authentication endpoints</h3>
+              <p>Complete request and response fields for session and token APIs.</p>
+              <a href="api/authentication.html">Open reference</a>
+            </article>
+          </div>
+
+          <h2 id="architecture">Core architecture</h2>
+          <p>
+            ULLR uses scoped identities, regional processing planes, and policy engines that evaluate
+            context per request.
+          </p>
+          <ul>
+            <li>Identity plane: token issue, introspection, and revocation.</li>
+            <li>Data plane: event ingest, normalization, and delivery guarantees.</li>
+            <li>Control plane: rollout policies, limits, and audit exports.</li>
+          </ul>
+
+          <h2 id="operations">Operations</h2>
+          <p>Operational playbooks for platform engineers and SRE teams.</p>
+          <ul>
+            <li>Incident response and error code diagnostics</li>
+            <li>Health checks and service limits</li>
+            <li>Deployment ring strategy and rollback policies</li>
+          </ul>
+
+          <h2 id="deployment">Deployment</h2>
+          <p>Release orchestration patterns, staged rollout controls, and rollback automation.</p>
+
+          <h2 id="tooling">Tooling</h2>
+          <p>CLI usage, SDK version policy, and local environment setup standards.</p>
+
+          <h2 id="security">Security</h2>
+          <p>
+            Security guidance for scope design, credential rotation, audit exports, and policy
+            controls.
+          </p>
+
+          <h2 id="release-notes">Release notes</h2>
+          <p>Track SDK and API changes, deprecations, and migration windows.</p>
+
+          <h2 id="events">Events</h2>
+          <p>Product office hours, architecture clinics, and release deep-dive sessions.</p>
+
+          <h2 id="changelog">Changelog</h2>
+          <p>Chronological updates to docs content, examples, and API recommendations.</p>
+
+          <h2 id="community">Community</h2>
+          <p>Office hours, forum support, and sample app repositories.</p>
+        </section>
+
+        <aside class="toc" aria-label="Topics in this page">
+          <h3>Topics in this page</h3>
+          <ul class="nav-list">
+            <li><a href="#getting-started">Getting started</a></li>
+            <li><a href="#architecture">Core architecture</a></li>
+            <li><a href="#operations">Operations</a></li>
+            <li><a href="#release-notes">Release notes</a></li>
+            <li><a href="#community">Community</a></li>
+          </ul>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-bottom">Copyright 2026 ULLR.</div>
+    </footer>
+
+    <script src="../assets/js/main.js"></script>
+  </body>
+</html>

@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Build Your First App | ullr Documentation</title>
-    <meta name="description" content="Step-by-step guide to build your first app with ullr." />
+    <title>Connection Flow | ullr Documentation</title>
+    <meta name="description" content="Understand the connection flow from phone to TV in ullr." />
     <link rel="stylesheet" href="../../assets/css/styles.css" />
   </head>
   <body>
@@ -67,82 +67,58 @@
         <aside class="sidebar" aria-label="Guide navigation">
           <h3>This guide</h3>
           <ul class="nav-list">
-            <li><a href="#prepare">Prepare environment</a></li>
-            <li><a href="#create-session">Create session</a></li>
-            <li><a href="#instrumentation">Add instrumentation</a></li>
-            <li><a href="#ui-auth">Integrate UI auth</a></li>
+            <li><a href="#local-network">Local network</a></li>
+            <li><a href="#pairing">Pairing</a></li>
+            <li><a href="#streaming">Streaming</a></li>
           </ul>
         </aside>
 
-        <article class="doc-main" aria-labelledby="guide-title">
+        <article class="doc-main" aria-labelledby="connection-flow-title">
           <p class="breadcrumb">
             <a href="../../index.html">Home</a> / <a href="../index.html">Documentation</a> /
-            Guides / Build your first app
+            Guides / Connection flow
           </p>
-          <h1 id="guide-title">Build your first app with ullr</h1>
+          <h1 id="connection-flow-title">Connection flow</h1>
           <div class="meta-row">
             <span class="meta-chip">Guide</span>
-            <span class="meta-chip">Beginner</span>
-            <span class="meta-chip">Estimated time 20 min</span>
-            <span class="meta-chip">Updated 03 Jun 2026</span>
+            <span class="meta-chip">Flow</span>
           </div>
           <p>
-            This tutorial walks through creating a server session, sending telemetry, and wiring
-            frontend authentication hooks.
+            This page explains the path from opening a phone experience to seeing it on TV with the
+            least possible complexity.
           </p>
 
-          <h2 id="prepare">1. Prepare environment</h2>
+          <h2 id="local-network">1. Local network</h2>
           <p>
-            Install the ullr SDK and export your token. Keep scope minimal for local development.
+            Keep phone and TV viewer app on the same Wi-Fi. This is the baseline requirement for fast
+            pairing and stable streaming.
           </p>
-          <pre><code>npm install @ullr/sdk
-export ullr_TOKEN="dev_***"
-export ullr_PROJECT="weather-console"</code></pre>
 
-          <h2 id="create-session">2. Create a session</h2>
+          <h2 id="pairing">2. Pairing</h2>
           <p>
-            Use your backend to exchange a machine token for a short-lived scoped session.
+            Start pairing from the phone and confirm the target TV through QR or code-based flow.
           </p>
-          <pre><code>import { UllrClient } from "@ullr/sdk";
 
-const client = new UllrClient({ token: process.env.ullr_TOKEN });
-
-const session = await client.sessions.create({
-  project: process.env.ullr_PROJECT,
-  scopes: ["events:write", "metrics:read"],
-});
-
-console.log(session.id);</code></pre>
-
-          <h2 id="instrumentation">3. Add instrumentation</h2>
+          <h2 id="streaming">3. Streaming</h2>
           <p>
-            Emit events from the app edge and verify event delivery through your dashboard.
-          </p>
-          <div class="callout">
-            Capture a request id in each event payload to simplify debugging and correlation.
-          </div>
-
-          <h2 id="ui-auth">4. Integrate UI authentication</h2>
-          <p>
-            Use the session token for short-lived browser actions and refresh through your backend,
-            not directly from the browser.
+            Once paired, the phone drives the experience and sends output to TV in real time while
+            input remains on the phone.
           </p>
 
           <h2>See also</h2>
           <ul>
-            <li><a href="../api/authentication.html">Authentication API reference</a></li>
-            <li><a href="../index.html#operations">Operations playbook</a></li>
-            <li><a href="../index.html#release-notes">Release notes</a></li>
+            <li><a href="get-started.html">Get started</a></li>
+            <li><a href="first-app.html">Step by step first experience</a></li>
+            <li><a href="design-considerations.html">Design considerations</a></li>
           </ul>
         </article>
 
-        <aside class="toc" aria-label="Guide table of contents">
+        <aside class="toc" aria-label="On this page">
           <h3>On this page</h3>
           <ul class="nav-list">
-            <li><a href="#prepare">Prepare environment</a></li>
-            <li><a href="#create-session">Create session</a></li>
-            <li><a href="#instrumentation">Add instrumentation</a></li>
-            <li><a href="#ui-auth">Integrate UI auth</a></li>
+            <li><a href="#local-network">Local network</a></li>
+            <li><a href="#pairing">Pairing</a></li>
+            <li><a href="#streaming">Streaming</a></li>
           </ul>
         </aside>
       </div>

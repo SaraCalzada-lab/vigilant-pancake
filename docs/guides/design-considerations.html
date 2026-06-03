@@ -3,8 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Build Your First App | ullr Documentation</title>
-    <meta name="description" content="Step-by-step guide to build your first app with ullr." />
+    <title>Design Considerations | ullr Documentation</title>
+    <meta
+      name="description"
+      content="Design considerations for phone-powered big-screen experiences in ullr."
+    />
     <link rel="stylesheet" href="../../assets/css/styles.css" />
   </head>
   <body>
@@ -67,82 +70,58 @@
         <aside class="sidebar" aria-label="Guide navigation">
           <h3>This guide</h3>
           <ul class="nav-list">
-            <li><a href="#prepare">Prepare environment</a></li>
-            <li><a href="#create-session">Create session</a></li>
-            <li><a href="#instrumentation">Add instrumentation</a></li>
-            <li><a href="#ui-auth">Integrate UI auth</a></li>
+            <li><a href="#controls">Controls</a></li>
+            <li><a href="#readability">Readability</a></li>
+            <li><a href="#multiplayer">Multiplayer UX</a></li>
           </ul>
         </aside>
 
-        <article class="doc-main" aria-labelledby="guide-title">
+        <article class="doc-main" aria-labelledby="design-considerations-title">
           <p class="breadcrumb">
             <a href="../../index.html">Home</a> / <a href="../index.html">Documentation</a> /
-            Guides / Build your first app
+            Guides / Design considerations
           </p>
-          <h1 id="guide-title">Build your first app with ullr</h1>
+          <h1 id="design-considerations-title">Design considerations</h1>
           <div class="meta-row">
             <span class="meta-chip">Guide</span>
-            <span class="meta-chip">Beginner</span>
-            <span class="meta-chip">Estimated time 20 min</span>
-            <span class="meta-chip">Updated 03 Jun 2026</span>
+            <span class="meta-chip">Design</span>
           </div>
           <p>
-            This tutorial walks through creating a server session, sending telemetry, and wiring
-            frontend authentication hooks.
+            Use this checklist to shape experiences that feel clear on TV and responsive on the phone.
           </p>
 
-          <h2 id="prepare">1. Prepare environment</h2>
+          <h2 id="controls">1. Controls should stay on phone</h2>
           <p>
-            Install the ullr SDK and export your token. Keep scope minimal for local development.
+            Keep interaction detail on phone so the TV remains clean and shared for everyone in the
+            room.
           </p>
-          <pre><code>npm install @ullr/sdk
-export ullr_TOKEN="dev_***"
-export ullr_PROJECT="weather-console"</code></pre>
 
-          <h2 id="create-session">2. Create a session</h2>
+          <h2 id="readability">2. Prioritize big-screen readability</h2>
           <p>
-            Use your backend to exchange a machine token for a short-lived scoped session.
+            Use strong contrast, short labels, and clear visual hierarchy so information is readable
+            from couch distance.
           </p>
-          <pre><code>import { UllrClient } from "@ullr/sdk";
 
-const client = new UllrClient({ token: process.env.ullr_TOKEN });
-
-const session = await client.sessions.create({
-  project: process.env.ullr_PROJECT,
-  scopes: ["events:write", "metrics:read"],
-});
-
-console.log(session.id);</code></pre>
-
-          <h2 id="instrumentation">3. Add instrumentation</h2>
+          <h2 id="multiplayer">3. Design for shared moments</h2>
           <p>
-            Emit events from the app edge and verify event delivery through your dashboard.
-          </p>
-          <div class="callout">
-            Capture a request id in each event payload to simplify debugging and correlation.
-          </div>
-
-          <h2 id="ui-auth">4. Integrate UI authentication</h2>
-          <p>
-            Use the session token for short-lived browser actions and refresh through your backend,
-            not directly from the browser.
+            When multiple players join, keep TV state synchronized and avoid private-only information
+            on the shared screen.
           </p>
 
           <h2>See also</h2>
           <ul>
-            <li><a href="../api/authentication.html">Authentication API reference</a></li>
-            <li><a href="../index.html#operations">Operations playbook</a></li>
-            <li><a href="../index.html#release-notes">Release notes</a></li>
+            <li><a href="get-started.html">Get started</a></li>
+            <li><a href="first-app.html">Step by step first experience</a></li>
+            <li><a href="connection-flow.html">Connection flow</a></li>
           </ul>
         </article>
 
-        <aside class="toc" aria-label="Guide table of contents">
+        <aside class="toc" aria-label="On this page">
           <h3>On this page</h3>
           <ul class="nav-list">
-            <li><a href="#prepare">Prepare environment</a></li>
-            <li><a href="#create-session">Create session</a></li>
-            <li><a href="#instrumentation">Add instrumentation</a></li>
-            <li><a href="#ui-auth">Integrate UI auth</a></li>
+            <li><a href="#controls">Controls</a></li>
+            <li><a href="#readability">Readability</a></li>
+            <li><a href="#multiplayer">Multiplayer UX</a></li>
           </ul>
         </aside>
       </div>

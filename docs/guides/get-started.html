@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Get Started — ullr Developer Portal</title>
+    <meta
+      name="description"
+      content="Get started with ullr and build your first phone-powered big-screen experience."
+    />
+    <link rel="stylesheet" href="../../assets/css/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="../../index.html" aria-label="ullr home">
+          <span class="brand-mark" aria-hidden="true"></span>
+          ullr Developers
+        </a>
+        <button
+          class="menu-toggle"
+          data-menu-toggle
+          aria-expanded="false"
+          aria-controls="primary-navigation"
+        >
+          Menu
+        </button>
+        <nav id="primary-navigation" class="main-nav" data-main-nav>
+          <a href="../../index.html">Home</a>
+          <a href="../index.html">Documentation</a>
+          <a href="index.html">Guides</a>
+          <a href="../api/authentication.html">API</a>
+        </nav>
+        <div class="header-actions">
+          <div class="search-shell" data-search-expandable>
+            <button
+              class="search-pill search-toggle"
+              type="button"
+              aria-expanded="false"
+              aria-controls="site-search-panel"
+              aria-label="Search documentation"
+              data-search-toggle
+            >
+              Search docs
+            </button>
+            <div id="site-search-panel" class="search-panel" hidden data-search-panel>
+              <label class="visually-hidden" for="site-search-input">Search documentation</label>
+              <input
+                id="site-search-input"
+                class="search-input"
+                type="search"
+                placeholder="Search docs"
+                autocomplete="off"
+                data-search-input
+              />
+              <div class="search-history" data-search-history-region>
+                <p class="search-history-title">Recent searches</p>
+                <ul class="search-history-list" data-search-history-list></ul>
+              </div>
+            </div>
+          </div>
+          <a class="button button-primary" href="#hero">Start building</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main" class="container">
+      <div class="docs-layout">
+        <aside class="sidebar" aria-label="Guide navigation">
+          <h3>This guide</h3>
+          <ul class="nav-list nav-list-primary">
+            <li class="nav-item-has-children">
+              <a href="#hero" data-submenu-toggle="get-started-submenu" aria-expanded="true"
+                >Get started</a
+              >
+              <ul id="get-started-submenu" class="nav-sublist">
+                <li><a href="#hero">Hero</a></li>
+                <li><a href="#build">What you’ll build</a></li>
+                <li><a href="#requirements">Requirements</a></li>
+                <li><a href="#flow">Step-by-step flow</a></li>
+                <li><a href="#how-it-works">How it works</a></li>
+                <li><a href="#multiplayer">Multiplayer</a></li>
+                <li><a href="#next-steps">Next steps</a></li>
+              </ul>
+            </li>
+          </ul>
+        </aside>
+
+        <article class="doc-main" aria-labelledby="get-started-title">
+          <p class="breadcrumb">
+            <a href="../../index.html">Home</a> / <a href="../index.html">Documentation</a> /
+            Guides / Get started
+          </p>
+          <section class="hero" id="hero">
+            <div>
+              <span class="eyebrow fade-in">Get started with ullr</span>
+              <h1 class="fade-in delay-1">Build your first phone-powered big-screen experience in minutes.</h1>
+              <p class="fade-in delay-2">
+                Start with the simplest possible mental model: a phone runs the experience, the TV
+                shows it, and both stay connected on the same local network.
+              </p>
+              <div class="hero-actions fade-in delay-2">
+                <a class="button button-primary" href="#build">Start building</a>
+              </div>
+            </div>
+          </section>
+
+          <div class="meta-row">
+            <span class="meta-chip">Guide</span>
+            <span class="meta-chip">Beginner</span>
+            <span class="meta-chip">Estimated time 10 min</span>
+          </div>
+
+          <h2 id="get-started-title">What you’ll build</h2>
+          <p id="build">
+            You’ll create a simple experience where a phone runs an experience, the TV displays it,
+            and inputs come from the phone.
+          </p>
+
+          <h2 id="requirements">Requirements</h2>
+          <ul>
+            <li>A smartphone</li>
+            <li>A TV with the viewer app</li>
+            <li>Same Wi-Fi network</li>
+          </ul>
+
+          <div class="callout">
+            ullr only works on the same local network.
+          </div>
+
+          <h2 id="flow">Step-by-step flow</h2>
+          <ol>
+            <li>Open your app on your phone</li>
+            <li>Launch an experience</li>
+            <li>Connect to a TV (QR or pairing)</li>
+            <li>Stream the experience</li>
+            <li>Interact using your phone</li>
+          </ol>
+
+          <h2 id="how-it-works">How it works</h2>
+          <p>
+            Phone = runs experience + captures input
+          </p>
+          <p>
+            TV = displays output
+          </p>
+          <p>
+            Streaming = local, real-time
+          </p>
+
+          <h2 id="multiplayer">Multiplayer</h2>
+          <p>
+            Additional players can join, each player uses their own phone, and the TV is shared.
+          </p>
+
+          <h2 id="next-steps">Next steps</h2>
+          <ul>
+            <li><a href="../index.html#architecture">Architecture</a></li>
+            <li><a href="first-app.html">Examples</a></li>
+            <li><a href="index.html">Guides</a></li>
+          </ul>
+        </article>
+
+        <aside class="toc" aria-label="On this page">
+          <h3>On this page</h3>
+          <ul class="nav-list">
+            <li><a href="#hero">Hero</a></li>
+            <li><a href="#build">What you’ll build</a></li>
+            <li><a href="#requirements">Requirements</a></li>
+            <li><a href="#flow">Step-by-step flow</a></li>
+            <li><a href="#how-it-works">How it works</a></li>
+            <li><a href="#multiplayer">Multiplayer</a></li>
+            <li><a href="#next-steps">Next steps</a></li>
+          </ul>
+        </aside>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-bottom">Copyright 2026 ullr.</div>
+    </footer>
+
+    <script src="../../assets/js/main.js"></script>
+  </body>
+</html>

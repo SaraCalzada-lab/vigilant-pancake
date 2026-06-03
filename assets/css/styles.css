@@ -562,7 +562,14 @@ img {
   box-shadow: var(--md-sys-elevation-1);
 }
 
-.sidebar h3,
+.sidebar h3 {
+  margin-top: 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.6;
+}
+
 .toc h3 {
   margin-top: 0;
   font-size: 0.85rem;

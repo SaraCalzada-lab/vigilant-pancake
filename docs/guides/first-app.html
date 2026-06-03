@@ -3,17 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Build Your First App | ULLR Documentation</title>
-    <meta name="description" content="Step-by-step guide to build your first app with ULLR." />
+    <title>Build Your First App | ullr Documentation</title>
+    <meta name="description" content="Step-by-step guide to build your first app with ullr." />
     <link rel="stylesheet" href="../../assets/css/styles.css" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href="../../index.html" aria-label="ULLR home">
+        <a class="brand" href="../../index.html" aria-label="ullr home">
           <span class="brand-mark" aria-hidden="true"></span>
-          ULLR Developers
+          ullr Developers
         </a>
         <button
           class="menu-toggle"
@@ -54,7 +54,7 @@
             <a href="../../index.html">Home</a> / <a href="../index.html">Documentation</a> /
             Guides / Build your first app
           </p>
-          <h1 id="guide-title">Build your first app with ULLR</h1>
+          <h1 id="guide-title">Build your first app with ullr</h1>
           <div class="meta-row">
             <span class="meta-chip">Guide</span>
             <span class="meta-chip">Beginner</span>
@@ -68,11 +68,11 @@
 
           <h2 id="prepare">1. Prepare environment</h2>
           <p>
-            Install the ULLR SDK and export your token. Keep scope minimal for local development.
+            Install the ullr SDK and export your token. Keep scope minimal for local development.
           </p>
           <pre><code>npm install @ullr/sdk
-export ULLR_TOKEN="dev_***"
-export ULLR_PROJECT="weather-console"</code></pre>
+export ullr_TOKEN="dev_***"
+export ullr_PROJECT="weather-console"</code></pre>
 
           <h2 id="create-session">2. Create a session</h2>
           <p>
@@ -80,10 +80,10 @@ export ULLR_PROJECT="weather-console"</code></pre>
           </p>
           <pre><code>import { UllrClient } from "@ullr/sdk";
 
-const client = new UllrClient({ token: process.env.ULLR_TOKEN });
+const client = new UllrClient({ token: process.env.ullr_TOKEN });
 
 const session = await client.sessions.create({
-  project: process.env.ULLR_PROJECT,
+  project: process.env.ullr_PROJECT,
   scopes: ["events:write", "metrics:read"],
 });
 
@@ -124,7 +124,7 @@ console.log(session.id);</code></pre>
     </main>
 
     <footer class="site-footer">
-      <div class="container footer-bottom">Copyright 2026 ULLR.</div>
+      <div class="container footer-bottom">Copyright 2026 ullr.</div>
     </footer>
 
     <script src="../../assets/js/main.js"></script>

@@ -371,6 +371,43 @@ img {
   text-decoration: none;
 }
 
+.nav-item-has-children > a {
+  position: relative;
+  padding-right: 1.25rem;
+}
+
+.nav-item-has-children > a::after {
+  content: ">";
+  position: absolute;
+  right: 0.45rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  transition: transform 0.18s ease;
+}
+
+.nav-item-has-children > a[aria-expanded="true"]::after {
+  transform: translateY(-50%) rotate(90deg);
+}
+
+.nav-sublist {
+  list-style: none;
+  margin: 0.2rem 0 0.35rem;
+  padding: 0.2rem 0 0.2rem 0.65rem;
+  border-left: 1px solid var(--border);
+}
+
+.nav-sublist li {
+  margin-bottom: 0;
+}
+
+.nav-sublist a {
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+  padding: 0.28rem 0.45rem;
+}
+
 .doc-main {
   background: var(--surface);
   border: 1px solid var(--border);

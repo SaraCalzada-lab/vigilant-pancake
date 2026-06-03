@@ -1,4 +1,4 @@
-# ULLR Developer Portal (Static)
+# ullr Developer Portal (Static)
 
 Static HTML/CSS/JS implementation of a developer portal.
 
@@ -29,7 +29,7 @@ Then open `http://localhost:8080`.
 
 ## Next steps
 
-1. Replace placeholder links and copy with real ULLR product content.
+1. Replace placeholder links and copy with real ullr product content.
 2. Add JSON-based client-side search index.
 3. Add syntax highlighting for code blocks.
 4. Add accessibility and Lighthouse checks in CI.

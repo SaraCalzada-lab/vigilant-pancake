@@ -3,17 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Documentation | ULLR Developer Portal</title>
-    <meta name="description" content="Documentation index for ULLR platform and APIs." />
+    <title>Documentation | ullr Developer Portal</title>
+    <meta name="description" content="Documentation index for ullr platform and APIs." />
     <link rel="stylesheet" href="../assets/css/styles.css" />
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to main content</a>
     <header class="site-header">
       <div class="container header-inner">
-        <a class="brand" href="../index.html" aria-label="ULLR home">
+        <a class="brand" href="../index.html" aria-label="ullr home">
           <span class="brand-mark" aria-hidden="true"></span>
-          ULLR Developers
+          ullr Developers
         </a>
         <button
           class="menu-toggle"
@@ -40,59 +40,52 @@
       <div class="docs-layout">
         <aside class="sidebar" aria-label="Documentation sections">
           <h3>Documentation</h3>
-          <ul class="nav-list">
-            <li><a class="active" href="index.html">Overview</a></li>
-            <li><a href="guides/first-app.html">Getting started</a></li>
-            <li><a href="#architecture">Architecture</a></li>
+          <ul class="nav-list nav-list-primary" data-docs-nav>
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#getting-started">Start building</a></li>
+            <li class="nav-item-has-children">
+              <a href="#architecture" data-submenu-toggle="architecture-submenu" aria-expanded="false"
+                >Architecture</a
+              >
+              <ul id="architecture-submenu" class="nav-sublist" hidden>
+                <li><a href="#architecture-high-level">High-level architecture</a></li>
+                <li>
+                  <a href="#architecture-interaction-model">Multi-device interaction model</a>
+                </li>
+                <li><a href="#architecture-end-to-end-flow">End-to-end flow</a></li>
+                <li><a href="#architecture-technical-flow">Technical flow</a></li>
+                <li><a href="#architecture-hero-summary">One-slide hero summary</a></li>
+              </ul>
+            </li>
             <li><a href="#operations">Operations</a></li>
             <li><a href="api/authentication.html">API reference</a></li>
             <li><a href="#release-notes">Release notes</a></li>
           </ul>
         </aside>
 
-        <section class="doc-main" aria-labelledby="doc-title">
-          <p class="breadcrumb"><a href="../index.html">Home</a> / Documentation</p>
-          <h1 id="doc-title">ULLR Documentation</h1>
-          <div class="meta-row">
-            <span class="meta-chip">Hub</span>
-            <span class="meta-chip">Estimated read 8 min</span>
-            <span class="meta-chip">Last updated 03 Jun 2026</span>
-          </div>
+        <section class="doc-main" aria-labelledby="overview">
+          <h2 id="overview">Documentation overview</h2>
           <p>
-            Use this hub to navigate ULLR foundations, integration patterns, operations, and detailed
-            API behavior.
+            Use this page as your in-product map of ullr architecture and operating guidance. First-
+            level sections stay visible in the left menu, and architecture subsections expand beneath
+            it for deeper navigation.
           </p>
 
-          <h2 id="getting-started">Getting started</h2>
-          <div class="card-grid">
-            <article class="card">
-              <span class="badge">Guide</span>
-              <h3>Build your first app</h3>
-              <p>Generate a token, post events, and verify delivery in one workflow.</p>
-              <a href="guides/first-app.html">Open guide</a>
-            </article>
-            <article class="card">
-              <span class="badge">Concept</span>
-              <h3>Security model</h3>
-              <p>Understand trust boundaries, token scopes, and policy inheritance.</p>
-              <a href="#security">Read concept</a>
-            </article>
-            <article class="card">
-              <span class="badge">Reference</span>
-              <h3>Authentication endpoints</h3>
-              <p>Complete request and response fields for session and token APIs.</p>
-              <a href="api/authentication.html">Open reference</a>
-            </article>
-          </div>
+          <h2 id="getting-started">Start building</h2>
+          <p>
+            Start with the first app walkthrough to connect a phone-powered experience and stream it
+            to TV output, then return to this page for architecture and operational patterns.
+          </p>
+          <p><a class="button button-secondary" href="guides/first-app.html">Open first app guide</a></p>
 
           <h2 id="architecture">Core architecture</h2>
           <p>
-            ULLR is designed so the phone runs the experience and the TV simply displays it. This
+            ullr is designed so the phone runs the experience and the TV simply displays it. This
             creates a low-friction living room setup where each player keeps private controls on their
             own device while everyone shares one big-screen output.
           </p>
 
-          <h3>High-level architecture</h3>
+          <h3 id="architecture-high-level">High-level architecture</h3>
           <ul>
             <li>Phone app: runs rendering, game logic, and controller input handling.</li>
             <li>TV viewer: receives streamed output and presents the shared experience.</li>
@@ -103,9 +96,9 @@
             <strong>Key message:</strong> The phone runs the experience. The TV simply displays it.
           </div>
 
-          <h3>Multi-device interaction model</h3>
+          <h3 id="architecture-interaction-model">Multi-device interaction model</h3>
           <p>
-            ULLR supports multiple player phones joining the same session. Each phone acts as both a
+            ullr supports multiple player phones joining the same session. Each phone acts as both a
             private screen and an input surface, while the TV remains the shared view of the game world.
           </p>
           <ul>
@@ -114,7 +107,7 @@
             <li>TV output: synchronized shared scene for all players.</li>
           </ul>
 
-          <h3>End-to-end flow</h3>
+          <h3 id="architecture-end-to-end-flow">End-to-end flow</h3>
           <ol>
             <li>Start on phone.</li>
             <li>Launch the experience.</li>
@@ -125,7 +118,7 @@
             <li>Keep TV focused on shared experience output.</li>
           </ol>
 
-          <table aria-label="ULLR architecture constraints">
+          <table aria-label="ullr architecture constraints">
             <thead>
               <tr>
                 <th>Constraint</th>
@@ -148,21 +141,21 @@
             </tbody>
           </table>
 
-          <h3>Technical flow</h3>
+          <h3 id="architecture-technical-flow">Technical flow</h3>
           <ul>
             <li>Phone runtime renders game frames and captures touch, motion, and media inputs.</li>
             <li>WebRTC stream carries video and audio over the local network.</li>
             <li>TV viewer receives and displays output in near real time.</li>
           </ul>
 
-          <h3>One-slide hero summary</h3>
+          <h3 id="architecture-hero-summary">One-slide hero summary</h3>
           <p><strong>Phone = engine + controller.</strong> It runs the experience and captures inputs.</p>
           <p><strong>TV = display.</strong> It presents the shared living room view.</p>
           <p><strong>Multiple phones = multiplayer.</strong> Each player joins with their own device.</p>
 
           <h3>Slide title options</h3>
           <ul>
-            <li>How ULLR Works</li>
+            <li>How ullr Works</li>
             <li>From Phone to Big Screen</li>
             <li>Reimagining the living room: Phone-powered TV gaming</li>
           </ul>
@@ -203,7 +196,7 @@
         <aside class="toc" aria-label="Topics in this page">
           <h3>Topics in this page</h3>
           <ul class="nav-list">
-            <li><a href="#getting-started">Getting started</a></li>
+            <li><a href="#getting-started">Start building</a></li>
             <li><a href="#architecture">Core architecture</a></li>
             <li><a href="#operations">Operations</a></li>
             <li><a href="#release-notes">Release notes</a></li>
@@ -214,7 +207,7 @@
     </main>
 
     <footer class="site-footer">
-      <div class="container footer-bottom">Copyright 2026 ULLR.</div>
+      <div class="container footer-bottom">Copyright 2026 ullr.</div>
     </footer>
 
     <script src="../assets/js/main.js"></script>

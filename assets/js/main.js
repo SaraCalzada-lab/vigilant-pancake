@@ -246,3 +246,31 @@ if (docsNav) {
   activateHashLinks();
   syncExpandedSectionToHash();
 }
+
+// Feature tab navigator
+const tabStrip = document.querySelector('.tab-strip[role="tablist"]');
+if (tabStrip) {
+  const tabs = Array.from(tabStrip.querySelectorAll('[role="tab"]'));
+
+  const activateTab = (tab) => {
+    tabs.forEach((t) => {
+      const panelId = t.getAttribute('aria-controls');
+      const panel = panelId ? document.getElementById(panelId) : null;
+      const isActive = t === tab;
+      t.setAttribute('aria-selected', String(isActive));
+      if (panel) panel.hidden = !isActive;
+    });
+    tab.focus();
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => activateTab(tab));
+    tab.addEventListener('keydown', (e) => {
+      const idx = tabs.indexOf(e.currentTarget);
+      if (e.key === 'ArrowRight') { e.preventDefault(); activateTab(tabs[(idx + 1) % tabs.length]); }
+      if (e.key === 'ArrowLeft')  { e.preventDefault(); activateTab(tabs[(idx - 1 + tabs.length) % tabs.length]); }
+      if (e.key === 'Home')       { e.preventDefault(); activateTab(tabs[0]); }
+      if (e.key === 'End')        { e.preventDefault(); activateTab(tabs[tabs.length - 1]); }
+    });
+  });
+}

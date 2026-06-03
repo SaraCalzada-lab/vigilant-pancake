@@ -10,7 +10,7 @@
     />
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
-  <body>
+  <body class="home-page">
     <a class="skip-link" href="#main">Skip to main content</a>
     <header class="site-header">
       <div class="container header-inner">
@@ -60,13 +60,13 @@
               </div>
             </div>
           </div>
-          <a class="button button-primary" href="docs/guides/get-started.html">Start building</a>
         </div>
       </div>
     </header>
 
-    <main id="main" class="container">
+    <main id="main">
       <section class="hero">
+        <div class="container">
         <div>
           <span class="eyebrow fade-in">Now in preview · ullr platform</span>
           <h1 class="fade-in delay-1">Build experiences for the big screen powered by the phone.</h1>
@@ -90,62 +90,138 @@
     "scope": ["events:write", "metrics:read"]
   }'</code></pre>
         </aside>
+        </div>
+      </section>
+
+      <section class="stat-strip" aria-label="Key platform facts">
+        <div class="container">
+          <dl class="stat-list">
+            <div class="stat-item">
+              <dt class="stat-value">&lt;10ms</dt>
+              <dd class="stat-label">Phone-to-TV latency</dd>
+            </div>
+            <div class="stat-item">
+              <dt class="stat-value">Zero TV hardware</dt>
+              <dd class="stat-label">Required by your app</dd>
+            </div>
+            <div class="stat-item">
+              <dt class="stat-value">One API call</dt>
+              <dd class="stat-label">To start a session</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="use-cases-title">
+        <div class="container">
+        <div class="section-header fade-in">
+          <span class="eyebrow">What you can build</span>
+          <h2 id="use-cases-title">What you can build with ULLR</h2>
+        </div>
+        <p class="section-intro fade-in delay-1">
+          ULLR is a capability, not a single product. Build phone-powered big-screen experiences
+          across multiplayer, branded, and utility-driven formats.
+        </p>
+        <div class="quickstrip quickstrip-use-cases fade-in delay-2">
+          <article class="quick-item quick-item-use-case">
+            <span class="badge">Gaming</span>
+            <h3>Gaming</h3>
+            <p>Multiplayer experiences powered by mobile and played together on the big screen.</p>
+          </article>
+          <article class="quick-item quick-item-use-case">
+            <span class="badge">Interactive</span>
+            <h3>Interactive experiences</h3>
+            <p>Multi-screen formats where each user has private controls on their phone.</p>
+          </article>
+          <article class="quick-item quick-item-use-case">
+            <span class="badge">Brand</span>
+            <h3>Advertising and branded experiences</h3>
+            <p>Interactive formats that invite audiences to engage using their own devices.</p>
+          </article>
+          <article class="quick-item quick-item-use-case">
+            <span class="badge">Utility</span>
+            <h3>Configurators and tools</h3>
+            <p>Guided experiences controlled from mobile and displayed on TV.</p>
+          </article>
+          <article class="quick-item quick-item-use-case">
+            <span class="badge">Control</span>
+            <h3>Unified control surfaces</h3>
+            <p>New ways to interact with content, devices, and UI using the phone.</p>
+          </article>
+        </div>
+        </div>
       </section>
 
       <section class="section" aria-labelledby="capabilities-title">
+        <div class="container">
         <div class="section-header">
-          <h2 id="capabilities-title">Featured capabilities</h2>
-          <a href="docs/index.html">View platform</a>
+          <span class="eyebrow">Platform</span>
+          <h2 id="capabilities-title">Platform building blocks</h2>
         </div>
-        <div class="card-grid">
-          <article class="card">
-            <span class="badge">Platform</span>
-            <h3>Phone-first architecture</h3>
-            <p>Understand why ullr runs on phone and displays on TV for shared experiences.</p>
-            <a href="docs/index.html#architecture">Learn more</a>
-          </article>
-          <article class="card">
-            <span class="badge">Build</span>
-            <h3>Reliable connection flow</h3>
-            <p>Follow the full pairing and streaming sequence from phone to TV.</p>
-            <a href="docs/guides/connection-flow.html">Learn more</a>
-          </article>
-          <article class="card">
-            <span class="badge">Design</span>
-            <h3>Living-room readability</h3>
-            <p>Design for couch distance with clear contrast, hierarchy, and feedback.</p>
-            <a href="docs/guides/design-considerations.html">Learn more</a>
-          </article>
+        <div class="tab-strip" role="tablist" aria-label="Platform topics">
+          <button class="tab-pill" role="tab" aria-selected="true" aria-controls="tab-architecture" id="tab-btn-architecture">Architecture</button>
+          <button class="tab-pill" role="tab" aria-selected="false" aria-controls="tab-connection" id="tab-btn-connection">Connection Flow</button>
+          <button class="tab-pill" role="tab" aria-selected="false" aria-controls="tab-design" id="tab-btn-design">Design</button>
         </div>
-      </section>
-
-      <section class="section" aria-labelledby="quickstarts-title">
-        <div class="section-header">
-          <h2 id="quickstarts-title">Quickstart by role</h2>
+        <div id="tab-architecture" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-architecture">
+          <div class="tab-panel-inner">
+            <div class="tab-panel-text">
+              <h3>Phone runs the logic. TV renders the output.</h3>
+              <p>ullr splits the experience across two screens. Your app logic, user input, and session state live entirely on the phone. The TV is a shared display — it renders what the phone sends, in real time. This means no app on the TV, no special hardware, and no SDK required on the big screen.</p>
+              <a class="button button-secondary" href="docs/index.html#architecture">Explore architecture</a>
+            </div>
+            <div class="tab-panel-detail">
+              <ul class="tab-detail-list">
+                <li><strong>Phone</strong> — runs game loop, holds session state, handles input</li>
+                <li><strong>TV</strong> — displays a rendered stream, no logic required</li>
+                <li><strong>Server</strong> — coordinates pairing and relays events</li>
+                <li><strong>No TV SDK</strong> — any HDMI-connected screen works</li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <div class="quickstrip">
-          <article class="quick-item">
-            <h3>Platform Engineer</h3>
-            <p>Understand architecture constraints before building interaction logic.</p>
-            <a href="docs/index.html#constraints">Review constraints</a>
-          </article>
-          <article class="quick-item">
-            <h3>Frontend Engineer</h3>
-            <p>Build your first phone-powered experience with a fast practical walkthrough.</p>
-            <a href="docs/guides/get-started.html">Open guide</a>
-          </article>
-          <article class="quick-item">
-            <h3>Experience Designer</h3>
-            <p>Shape shared-screen moments that stay legible and responsive for every player.</p>
-            <a href="docs/guides/design-considerations.html">Open design guide</a>
-          </article>
+        <div id="tab-connection" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-connection" hidden>
+          <div class="tab-panel-inner">
+            <div class="tab-panel-text">
+              <h3>From QR scan to live session in seconds.</h3>
+              <p>The connection flow is the backbone of every ullr experience. A user scans a QR code on the TV, their phone authenticates, and a secure real-time channel opens. From that point your app sends events and the TV updates instantly — with no manual configuration on either side.</p>
+              <a class="button button-secondary" href="docs/guides/connection-flow.html">See the full flow</a>
+            </div>
+            <div class="tab-panel-detail">
+              <ul class="tab-detail-list">
+                <li><strong>Step 1</strong> — TV displays session QR code</li>
+                <li><strong>Step 2</strong> — Phone scans and authenticates</li>
+                <li><strong>Step 3</strong> — Real-time channel opens</li>
+                <li><strong>Step 4</strong> — App starts sending events</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div id="tab-design" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-design" hidden>
+          <div class="tab-panel-inner">
+            <div class="tab-panel-text">
+              <h3>Design for the couch, not the desk.</h3>
+              <p>TV screens are viewed from 2–4 metres. Type must be larger, contrast must be higher, and interactions must be forgiving. ullr experiences live in living rooms, so every design decision should account for distance, shared visibility, and the phone as the primary input surface.</p>
+              <a class="button button-secondary" href="docs/guides/design-considerations.html">Read design guide</a>
+            </div>
+            <div class="tab-panel-detail">
+              <ul class="tab-detail-list">
+                <li><strong>Min 32px</strong> — body text size on TV</li>
+                <li><strong>4.5:1 contrast</strong> — minimum for readability at distance</li>
+                <li><strong>Phone = input</strong> — TV is always display-only</li>
+                <li><strong>Big tap targets</strong> — minimum 48×48px on phone</li>
+              </ul>
+            </div>
+          </div>
+        </div>
         </div>
       </section>
 
       <section id="updates" class="section" aria-labelledby="updates-title">
+        <div class="container">
         <div class="section-header">
+          <span class="eyebrow">Updates</span>
           <h2 id="updates-title">Latest updates</h2>
-          <a href="docs/guides/index.html">All build guides</a>
         </div>
         <div class="card-grid">
           <article class="card">
@@ -167,8 +243,17 @@
             <a href="docs/api/authentication.html">Read reference</a>
           </article>
         </div>
+        </div>
       </section>
     </main>
+
+    <section class="cta-band">
+      <div class="container cta-band-inner">
+        <span class="eyebrow cta-band-eyebrow">Get building</span>
+        <h2>Ready to build your first experience?</h2>
+        <a class="button button-primary" href="docs/guides/get-started.html">Get started</a>
+      </div>
+    </section>
 
     <footer class="site-footer">
       <div class="container footer-grid">

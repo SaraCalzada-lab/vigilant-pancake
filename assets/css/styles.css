@@ -42,7 +42,7 @@ body {
 }
 
 a {
-  color: var(--brand);
+  color: #464feb;
   text-decoration: none;
 }
 
@@ -405,6 +405,15 @@ td {
   padding: 0.6rem;
   text-align: left;
   vertical-align: top;
+}
+
+tr th,
+tr td {
+  border: 1px solid #e6e6e6;
+}
+
+tr th {
+  background-color: #f5f5f5;
 }
 
 code,

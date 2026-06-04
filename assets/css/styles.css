@@ -509,6 +509,45 @@ img {
   margin-right: auto;
 }
 
+.home-page .capability-showcase {
+  background: var(--home-section-tone-a);
+}
+
+.capability-intro {
+  max-width: 56ch;
+  margin-bottom: var(--space-5);
+}
+
+.capability-cards {
+  align-items: stretch;
+}
+
+.capability-label {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--md-sys-color-primary) 64%, var(--ink-soft));
+}
+
+.capability-card h3 {
+  margin: 0;
+  font-size: clamp(1.05rem, 1.55vw, 1.35rem);
+  line-height: 1.2;
+}
+
+.capability-card h3 + p {
+  margin: 0.3rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.94rem;
+  line-height: 1.45;
+}
+
+.capability-card {
+  border: 1px solid color-mix(in srgb, var(--md-sys-color-outline-variant) 55%, transparent);
+}
+
 .data-strip {
   padding: var(--space-5) 0;
   background: #001b3d;
@@ -1255,6 +1294,10 @@ button:focus-visible,
   .quickstrip,
   .footer-grid {
     grid-template-columns: 1fr;
+  }
+
+  .capability-card h3 {
+    font-size: 1.05rem;
   }
 
   .doc-main {

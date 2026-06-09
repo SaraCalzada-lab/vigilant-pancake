@@ -1,6 +1,6 @@
 import type { Question } from "./questions";
 
-export type QuestionMode = "multiple_choice" | "ordering" | "typing_blitz";
+export type QuestionMode = "multiple_choice" | "ordering" | "typing_blitz" | "true_or_false";
 
 export interface GameConfig {
   questionCount: number;
@@ -32,6 +32,8 @@ export interface PlayerAnswer {
   typingSubmissions?: string[];
   typingResults?: TypingBlitzResult[];
   typingCorrectCount?: number;
+  // True or False-specific
+  trueFalseSelection?: boolean; // undefined = no answer
 }
 
 export type PhaseType = "lobby" | "question" | "results" | "leaderboard" | "final";
@@ -54,6 +56,8 @@ export interface GameState {
   currentCorrectOrder?: string[];
   // Typing Blitz-specific — in-progress submissions keyed by socketId
   typingSubmissionsThisRound: Map<string, string[]>;
+  // True or False-specific — in-progress selections keyed by socketId
+  trueFalseSelectionsThisRound: Map<string, boolean>;
   // Session config
   sessionQuestions: Question[];
 }
@@ -68,6 +72,7 @@ export function createInitialGameState(): GameState {
     answersThisRound: new Map(),
     timerInterval: null,
     typingSubmissionsThisRound: new Map(),
+    trueFalseSelectionsThisRound: new Map(),
     sessionQuestions: [],
   };
 }
@@ -129,6 +134,16 @@ export function calculateTypingScore(
   const points = correctCount * pointsPerAnswer;
 
   return { points, correctCount, results };
+}
+
+export function calculateTrueOrFalseScore(
+  selection: boolean | undefined,
+  correctAnswer: boolean,
+  pointsCorrect: number
+): { points: number; correct: boolean } {
+  if (selection === undefined) return { points: 0, correct: false };
+  const correct = selection === correctAnswer;
+  return { points: correct ? pointsCorrect : 0, correct };
 }
 
 export function getLeaderboard(players: Map<string, Player>) {

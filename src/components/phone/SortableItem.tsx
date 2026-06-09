@@ -41,7 +41,8 @@ export default function SortableItem({ id, imageUrl, label, position, disabled }
         {position}
       </span>
 
-      {/* Image thumbnail */}
+      {/* Image thumbnail — dynamic external URLs, next/image needs domain allowlist */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={imageUrl}
         alt={label}

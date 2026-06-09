@@ -24,6 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: `window.addEventListener('error',function(e){document.title='JS ERR: '+e.message;});` }} />
+      </head>
       <body className="min-h-full">{children}</body>
     </html>
   );

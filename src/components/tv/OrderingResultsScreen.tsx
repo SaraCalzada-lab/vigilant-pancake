@@ -51,12 +51,12 @@ export default function OrderingResultsScreen({
         {orderedCorrectItems.map((item, i) => (
           <div
             key={item.id}
-            className="flex flex-col items-center gap-2 rounded-2xl bg-emerald-500/15 p-4 ring-2 ring-emerald-500/30"
-            style={{ width: 160, height: 170 }}
+            className="flex h-[170px] w-[160px] flex-col items-center gap-2 rounded-2xl bg-emerald-500/15 p-4 ring-2 ring-emerald-500/30"
           >
             <span className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-500/30 text-sm font-bold text-emerald-300">
               {i + 1}
             </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={item.imageUrl}
               alt={item.label}

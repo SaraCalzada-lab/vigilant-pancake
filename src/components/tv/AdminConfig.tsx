@@ -52,10 +52,10 @@ export default function AdminConfig({ config, onChange, onClose }: AdminConfigPr
         {/* Game Modes */}
         <div className="flex flex-col gap-3">
           <p className="text-sm font-medium uppercase tracking-wider text-white/40">Modes</p>
-          <div className="flex flex-wrap gap-3">
+          <div className="grid grid-cols-2 gap-3">
             <button
               onClick={() => toggleMode("multiple_choice")}
-              className={`flex-1 rounded-2xl px-5 py-3 text-base font-semibold transition-all ${
+              className={`rounded-2xl px-5 py-3 text-base font-semibold transition-all ${
                 modes.includes("multiple_choice")
                   ? "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-500/25"
                   : "glass text-white/40 hover:text-white/60"
@@ -65,7 +65,7 @@ export default function AdminConfig({ config, onChange, onClose }: AdminConfigPr
             </button>
             <button
               onClick={() => toggleMode("ordering")}
-              className={`flex-1 rounded-2xl px-5 py-3 text-base font-semibold transition-all ${
+              className={`rounded-2xl px-5 py-3 text-base font-semibold transition-all ${
                 modes.includes("ordering")
                   ? "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-500/25"
                   : "glass text-white/40 hover:text-white/60"
@@ -75,13 +75,23 @@ export default function AdminConfig({ config, onChange, onClose }: AdminConfigPr
             </button>
             <button
               onClick={() => toggleMode("typing_blitz")}
-              className={`flex-1 rounded-2xl px-5 py-3 text-base font-semibold transition-all ${
+              className={`rounded-2xl px-5 py-3 text-base font-semibold transition-all ${
                 modes.includes("typing_blitz")
                   ? "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-500/25"
                   : "glass text-white/40 hover:text-white/60"
               }`}
             >
               Typing Blitz
+            </button>
+            <button
+              onClick={() => toggleMode("true_or_false")}
+              className={`rounded-2xl px-5 py-3 text-base font-semibold transition-all ${
+                modes.includes("true_or_false")
+                  ? "bg-gradient-to-r from-violet-600 to-indigo-600 text-white shadow-lg shadow-violet-500/25"
+                  : "glass text-white/40 hover:text-white/60"
+              }`}
+            >
+              True or False
             </button>
           </div>
         </div>

@@ -1,18 +1,21 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
+import dynamic from "next/dynamic";
 import { getSocket } from "@/lib/socket";
 import JoinScreen from "@/components/phone/JoinScreen";
 import WaitingScreen from "@/components/phone/WaitingScreen";
 import AnswerButtons from "@/components/phone/AnswerButtons";
 import ResultFeedback from "@/components/phone/ResultFeedback";
-import OrderingSortable from "@/components/phone/OrderingSortable";
-import OrderingResultFeedback from "@/components/phone/OrderingResultFeedback";
-import TypingBlitzInput from "@/components/phone/TypingBlitzInput";
-import TypingBlitzResultFeedback from "@/components/phone/TypingBlitzResultFeedback";
+
+const OrderingSortable = dynamic(() => import("@/components/phone/OrderingSortable"), { ssr: false });
+const OrderingResultFeedback = dynamic(() => import("@/components/phone/OrderingResultFeedback"), { ssr: false });
+const TypingBlitzInput = dynamic(() => import("@/components/phone/TypingBlitzInput"), { ssr: false });
+const TypingBlitzResultFeedback = dynamic(() => import("@/components/phone/TypingBlitzResultFeedback"), { ssr: false });
+const TrueOrFalseButtons = dynamic(() => import("@/components/phone/TrueOrFalseButtons"), { ssr: false });
 
 type Phase = "join" | "waiting" | "question" | "answered" | "result" | "scores" | "final";
-type QuestionType = "multiple_choice" | "ordering" | "typing_blitz";
+type QuestionType = "multiple_choice" | "ordering" | "typing_blitz" | "true_or_false";
 
 interface OrderingItem {
   id: string;
@@ -37,6 +40,7 @@ export default function PlayPage() {
   const [orderingItems, setOrderingItems] = useState<OrderingItem[]>([]);
   const [currentOrder, setCurrentOrder] = useState<string[]>([]);
   const currentOrderRef = useRef<string[]>([]);
+  const orderingAutoSubmitRef = useRef<(tick: number) => void>(() => {});
 
   const [lastCorrect, setLastCorrect] = useState(false);
   const [lastPoints, setLastPoints] = useState(0);
@@ -50,6 +54,10 @@ export default function PlayPage() {
   const [typingChips, setTypingChips] = useState<string[]>([]);
   const typingChipsRef = useRef<string[]>([]);
   const [lastTotalSubmitted, setLastTotalSubmitted] = useState(0);
+
+  // True or False state
+  const [trueOrFalseStatement, setTrueOrFalseStatement] = useState("");
+  const [trueOrFalseSelection, setTrueOrFalseSelection] = useState<boolean | undefined>(undefined);
 
   const handleJoin = useCallback((name: string) => {
     getSocket().emit("player:join", { name });
@@ -92,6 +100,25 @@ export default function PlayPage() {
     [questionNum]
   );
 
+  const handleTrueFalseSelect = useCallback(
+    (selection: boolean) => {
+      setTrueOrFalseSelection(selection);
+      getSocket().emit("true_false:select", { questionNum, selection });
+    },
+    [questionNum]
+  );
+
+  // Keep ref in sync so the timer:tick socket handler can auto-submit ordering
+  orderingAutoSubmitRef.current = (newSecondsLeft: number) => {
+    if (newSecondsLeft <= 0 && phase === "question" && questionType === "ordering") {
+      setPhase("answered");
+      getSocket().emit("answer:submit", {
+        questionNum,
+        orderedItemIds: currentOrderRef.current,
+      });
+    }
+  };
+
   useEffect(() => {
     const socket = getSocket();
 
@@ -133,6 +160,10 @@ export default function PlayPage() {
         setTypingQuestionText(data.text);
         setTypingChips([]);
         typingChipsRef.current = [];
+      } else if (data.type === "true_or_false") {
+        setQuestionType("true_or_false");
+        setTrueOrFalseStatement(data.text);
+        setTrueOrFalseSelection(undefined);
       } else {
         setQuestionType("multiple_choice");
         setOptions(data.options);
@@ -141,17 +172,7 @@ export default function PlayPage() {
 
     socket.on("timer:tick", (data) => {
       setSecondsLeft(data.secondsLeft);
-
-      // Auto-submit ordering when timer hits 0
-      if (data.secondsLeft <= 0) {
-        // The server will handle unanswered players, but we try to submit
-        // the current arrangement so the player gets credit
-        // Only auto-submit if we haven't already submitted
-      }
-    });
-
-    socket.on("answer:ack", () => {
-      // Stay in "answered" phase - buttons locked
+      orderingAutoSubmitRef.current(data.secondsLeft);
     });
 
     socket.on("typing:submit:ack", (data: { word: string }) => {
@@ -185,6 +206,16 @@ export default function PlayPage() {
           setLastPoints(myResult.points);
           setScore(myResult.totalScore);
           setLastCorrect(myResult.correctCount > 0);
+        }
+      } else if (data.type === "true_or_false") {
+        setQuestionType("true_or_false");
+        const myResult = data.playerResults.find(
+          (r: { id: string }) => r.id === socket.id
+        );
+        if (myResult) {
+          setLastCorrect(myResult.correct);
+          setLastPoints(myResult.points);
+          setScore(myResult.totalScore);
         }
       } else {
         setQuestionType("multiple_choice");
@@ -227,6 +258,7 @@ export default function PlayPage() {
       setQuestionType("multiple_choice");
       setTypingChips([]);
       typingChipsRef.current = [];
+      setTrueOrFalseSelection(undefined);
     });
 
     return () => {
@@ -237,7 +269,6 @@ export default function PlayPage() {
       socket.off("game:start");
       socket.off("question:start");
       socket.off("timer:tick");
-      socket.off("answer:ack");
       socket.off("typing:submit:ack");
       socket.off("question:end");
       socket.off("scores:shown");
@@ -245,17 +276,6 @@ export default function PlayPage() {
       socket.off("game:reset");
     };
   }, []);
-
-  // Auto-submit ordering answer when timer expires
-  useEffect(() => {
-    if (secondsLeft <= 0 && phase === "question" && questionType === "ordering") {
-      setPhase("answered");
-      getSocket().emit("answer:submit", {
-        questionNum,
-        orderedItemIds: currentOrderRef.current,
-      });
-    }
-  }, [secondsLeft, phase, questionType, questionNum]);
 
   return (
     <div className="bg-mesh-animated h-screen w-screen overflow-hidden text-white">
@@ -296,6 +316,15 @@ export default function PlayPage() {
         />
       )}
 
+      {phase === "question" && questionType === "true_or_false" && (
+        <TrueOrFalseButtons
+          statement={trueOrFalseStatement}
+          secondsLeft={secondsLeft}
+          selection={trueOrFalseSelection}
+          onSelect={handleTrueFalseSelect}
+        />
+      )}
+
       {phase === "result" && questionType === "multiple_choice" && (
         <ResultFeedback
           correct={lastCorrect}
@@ -317,6 +346,14 @@ export default function PlayPage() {
         <TypingBlitzResultFeedback
           correctCount={lastCorrectCount}
           totalSubmitted={lastTotalSubmitted}
+          points={lastPoints}
+          totalScore={score}
+        />
+      )}
+
+      {phase === "result" && questionType === "true_or_false" && (
+        <ResultFeedback
+          correct={lastCorrect}
           points={lastPoints}
           totalScore={score}
         />

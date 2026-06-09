@@ -4,6 +4,7 @@ import {
   getTimeLimit,
   getRevealDuration,
   getPointsPerAnswer,
+  getPointsCorrect,
   shuffleItems,
   selectQuestions,
 } from "../lib/questions";
@@ -15,6 +16,7 @@ import {
   calculateScore,
   calculateOrderingScore,
   calculateTypingScore,
+  calculateTrueOrFalseScore,
   normalizeTypingAnswer,
   getLeaderboard,
 } from "../lib/game-state";
@@ -54,6 +56,7 @@ export function registerSocketHandlers(io: Server) {
     gameState.currentQuestion = questionIndex;
     gameState.answersThisRound = new Map();
     gameState.typingSubmissionsThisRound = new Map();
+    gameState.trueFalseSelectionsThisRound = new Map();
     gameState.phase = { type: "question", questionNum: questionIndex };
 
     const q = gameState.sessionQuestions[questionIndex];
@@ -117,6 +120,31 @@ export function registerSocketHandlers(io: Server) {
       for (const [socketId] of gameState.players) {
         io.to(socketId).emit("question:start", {
           type: "typing_blitz",
+          questionNum: questionIndex,
+          text: q.text,
+          timeLimit: timeLimitSec,
+        });
+      }
+
+      // Clear ordering state
+      gameState.currentCorrectOrder = undefined;
+      gameState.currentShuffledOrder = undefined;
+    } else if (q.type === "true_or_false") {
+      // Send statement to TV
+      if (gameState.tvSocketId) {
+        io.to(gameState.tvSocketId).emit("question:show", {
+          type: "true_or_false",
+          questionNum: questionIndex,
+          text: q.text,
+          timeLimit: timeLimitSec,
+          totalQuestions: gameState.sessionQuestions.length,
+        });
+      }
+
+      // Send statement to every phone (phone displays the statement itself)
+      for (const [socketId] of gameState.players) {
+        io.to(socketId).emit("question:start", {
+          type: "true_or_false",
           questionNum: questionIndex,
           text: q.text,
           timeLimit: timeLimitSec,
@@ -208,6 +236,29 @@ export function registerSocketHandlers(io: Server) {
         player.answers.push(answer);
         player.score += points;
       }
+    } else if (q.type === "true_or_false") {
+      // Score every player based on their final selection (undefined = no answer)
+      const pointsCorrect = getPointsCorrect(q);
+      for (const player of gameState.players.values()) {
+        if (gameState.answersThisRound.has(player.id)) continue;
+        const selection = gameState.trueFalseSelectionsThisRound.get(player.id);
+        const { points, correct } = calculateTrueOrFalseScore(
+          selection,
+          q.correctAnswer,
+          pointsCorrect
+        );
+        const answer: PlayerAnswer = {
+          questionNum: gameState.currentQuestion,
+          optionIndex: -1,
+          timeMs: timeLimitSec * 1000,
+          correct,
+          points,
+          trueFalseSelection: selection,
+        };
+        gameState.answersThisRound.set(player.id, answer);
+        player.answers.push(answer);
+        player.score += points;
+      }
     } else {
       // Give 0 points to players who didn't answer
       for (const [socketId] of gameState.players) {
@@ -287,6 +338,33 @@ export function registerSocketHandlers(io: Server) {
       });
 
       gameState.typingSubmissionsThisRound = new Map();
+    } else if (q.type === "true_or_false") {
+      const playerResults = Array.from(gameState.players.values()).map((p) => {
+        const answer = gameState.answersThisRound.get(p.id);
+        return {
+          id: p.id,
+          name: p.name,
+          selection: answer?.trueFalseSelection,
+          correct: answer?.correct ?? false,
+          points: answer?.points ?? 0,
+          totalScore: p.score,
+        };
+      });
+
+      const trueCount = playerResults.filter((p) => p.selection === true).length;
+      const falseCount = playerResults.filter((p) => p.selection === false).length;
+
+      io.emit("question:end", {
+        type: "true_or_false",
+        questionNum: gameState.currentQuestion,
+        correctAnswer: q.correctAnswer,
+        explanation: q.explanation,
+        trueCount,
+        falseCount,
+        playerResults,
+      });
+
+      gameState.trueFalseSelectionsThisRound = new Map();
     } else {
       // Build per-player results for MC
       const playerResults = Array.from(gameState.players.values()).map((p) => {
@@ -545,6 +623,30 @@ export function registerSocketHandlers(io: Server) {
       }
     });
 
+    // True or False: re-selectable live selection
+    socket.on("true_false:select", (data: { questionNum: number; selection: boolean }) => {
+      const player = gameState.players.get(socket.id);
+      if (!player) return;
+      if (gameState.phase.type !== "question") return;
+      if (data.questionNum !== gameState.currentQuestion) return;
+
+      const q = gameState.sessionQuestions[gameState.currentQuestion];
+      if (q.type !== "true_or_false") return;
+      if (typeof data.selection !== "boolean") return;
+
+      const wasFirst = !gameState.trueFalseSelectionsThisRound.has(socket.id);
+      gameState.trueFalseSelectionsThisRound.set(socket.id, data.selection);
+
+      // Bump the TV answered count only on the player's first selection
+      if (wasFirst && gameState.tvSocketId) {
+        io.to(gameState.tvSocketId).emit("answer:count", {
+          answered: gameState.trueFalseSelectionsThisRound.size,
+          total: gameState.players.size,
+        });
+      }
+      // No early termination — round ends on timer expiry only
+    });
+
     // Host starts the game
     socket.on("admin:start-game", (config?: GameConfig) => {
       if (gameState.phase.type !== "lobby") return;
@@ -582,6 +684,7 @@ export function registerSocketHandlers(io: Server) {
       } else if (gameState.players.has(socket.id)) {
         gameState.players.delete(socket.id);
         gameState.typingSubmissionsThisRound.delete(socket.id);
+        gameState.trueFalseSelectionsThisRound.delete(socket.id);
         if (gameState.tvSocketId) {
           io.to(gameState.tvSocketId).emit("player:joined", {
             players: getPlayersArray(),
@@ -589,12 +692,13 @@ export function registerSocketHandlers(io: Server) {
         }
 
         // If game in progress and all remaining players answered, end question
-        // (not applicable to typing_blitz — that mode only ends on timer expiry)
+        // (not applicable to typing_blitz or true_or_false — those modes only end on timer expiry)
         const currentQ = gameState.sessionQuestions[gameState.currentQuestion];
         if (
           gameState.phase.type === "question" &&
           gameState.players.size > 0 &&
           currentQ?.type !== "typing_blitz" &&
+          currentQ?.type !== "true_or_false" &&
           gameState.answersThisRound.size >= gameState.players.size
         ) {
           endQuestion();

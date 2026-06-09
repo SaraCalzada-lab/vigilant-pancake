@@ -29,7 +29,19 @@ export interface TypingBlitzQuestion extends BaseQuestion {
   pointsPerAnswer?: number; // default TYPING_BLITZ_POINTS_PER_ANSWER
 }
 
-export type Question = MultipleChoiceQuestion | OrderingQuestion | TypingBlitzQuestion;
+export interface TrueOrFalseQuestion extends BaseQuestion {
+  type: "true_or_false";
+  correctAnswer: boolean;
+  explanation?: string;
+  pointsCorrect?: number; // default TRUE_OR_FALSE_POINTS
+  revealDuration?: number; // seconds; default TRUE_OR_FALSE_REVEAL_DURATION
+}
+
+export type Question =
+  | MultipleChoiceQuestion
+  | OrderingQuestion
+  | TypingBlitzQuestion
+  | TrueOrFalseQuestion;
 
 export const QUESTIONS: Question[] = [
   {
@@ -190,6 +202,37 @@ export const QUESTIONS: Question[] = [
       "neptune",
     ],
   },
+  {
+    id: 17,
+    type: "true_or_false",
+    text: "The Great Wall of China is visible from space with the naked eye",
+    correctAnswer: false,
+    explanation:
+      "It's too narrow — astronauts consistently report they cannot see it from low Earth orbit.",
+  },
+  {
+    id: 18,
+    type: "true_or_false",
+    text: "Sharks are mammals",
+    correctAnswer: false,
+    explanation: "Sharks are fish — cartilaginous fish, to be specific.",
+  },
+  {
+    id: 19,
+    type: "true_or_false",
+    text: "Michael Jordan won 6 NBA championships",
+    correctAnswer: true,
+    explanation:
+      "All with the Chicago Bulls, across two three-peats in the 1990s.",
+  },
+  {
+    id: 20,
+    type: "true_or_false",
+    text: "Humans share about 60% of their DNA with bananas",
+    correctAnswer: true,
+    explanation:
+      "At the gene level — both are built from the same basic cellular machinery.",
+  },
 ];
 
 import type { GameConfig, QuestionMode } from "./game-state";
@@ -208,9 +251,12 @@ export function selectQuestions(config: GameConfig): Question[] {
 export const MC_TIME_LIMIT = 15;
 export const ORDERING_TIME_LIMIT = 25;
 export const TYPING_BLITZ_TIME_LIMIT = 25;
+export const TRUE_OR_FALSE_TIME_LIMIT = 15;
 export const DEFAULT_REVEAL_DURATION = 4;
 export const TYPING_BLITZ_REVEAL_DURATION = 10;
+export const TRUE_OR_FALSE_REVEAL_DURATION = 6;
 export const TYPING_BLITZ_POINTS_PER_ANSWER = 10;
+export const TRUE_OR_FALSE_POINTS = 10;
 
 export function getTimeLimit(question: Question): number {
   if (question.timeLimit) return question.timeLimit;
@@ -219,6 +265,8 @@ export function getTimeLimit(question: Question): number {
       return ORDERING_TIME_LIMIT;
     case "typing_blitz":
       return TYPING_BLITZ_TIME_LIMIT;
+    case "true_or_false":
+      return TRUE_OR_FALSE_TIME_LIMIT;
     default:
       return MC_TIME_LIMIT;
   }
@@ -229,11 +277,18 @@ export function getRevealDuration(question: Question): number {
   if (question.type === "typing_blitz") {
     return question.revealDuration ?? TYPING_BLITZ_REVEAL_DURATION;
   }
+  if (question.type === "true_or_false") {
+    return question.revealDuration ?? TRUE_OR_FALSE_REVEAL_DURATION;
+  }
   return DEFAULT_REVEAL_DURATION;
 }
 
 export function getPointsPerAnswer(question: TypingBlitzQuestion): number {
   return question.pointsPerAnswer ?? TYPING_BLITZ_POINTS_PER_ANSWER;
+}
+
+export function getPointsCorrect(question: TrueOrFalseQuestion): number {
+  return question.pointsCorrect ?? TRUE_OR_FALSE_POINTS;
 }
 
 /** Fisher-Yates shuffle that guarantees result differs from input order */

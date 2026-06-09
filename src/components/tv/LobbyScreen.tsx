@@ -29,11 +29,22 @@ const SLOT_COLORS = [
   "from-[#22d3ee] to-[#06b6d4]",
 ];
 
-const ALL_MODES: QuestionMode[] = ["multiple_choice", "ordering", "typing_blitz"];
+const ALL_MODES: QuestionMode[] = [
+  "multiple_choice",
+  "ordering",
+  "typing_blitz",
+  "true_or_false",
+];
 
 function getConfigSummary(config: GameConfig): string {
   const modeLabels = config.modes.map((m) =>
-    m === "multiple_choice" ? "MC" : m === "ordering" ? "Ordering" : "Typing"
+    m === "multiple_choice"
+      ? "MC"
+      : m === "ordering"
+      ? "Ordering"
+      : m === "typing_blitz"
+      ? "Typing"
+      : "T/F"
   );
   const allModes = config.modes.length === ALL_MODES.length;
   const max = getAvailableCounts(config.modes).max;

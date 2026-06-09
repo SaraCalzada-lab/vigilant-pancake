@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx next:*)",
+      "Bash(brew install:*)",
+      "Bash(lsof -ti:3000)",
+      "Bash(curl:*)",
+      "Bash(xargs kill:*)",
+      "Bash(open:*)",
+      "Bash(lsof -i :3000 -sTCP:LISTEN)"
+    ]
+  }
+}

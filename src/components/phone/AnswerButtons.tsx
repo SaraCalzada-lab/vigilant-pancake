@@ -64,7 +64,6 @@ export default function AnswerButtons({
         {options.map((option, i) => {
           const style = OPTION_STYLES[i];
           const isSelected = selectedIndex === i;
-          const isDisabledOther = disabled && !isSelected;
 
           return (
             <button

@@ -12,9 +12,11 @@ import OrderingQuestionScreen from "@/components/tv/OrderingQuestionScreen";
 import OrderingResultsScreen from "@/components/tv/OrderingResultsScreen";
 import TypingBlitzQuestionScreen from "@/components/tv/TypingBlitzQuestionScreen";
 import TypingBlitzResultsScreen from "@/components/tv/TypingBlitzResultsScreen";
+import TrueOrFalseQuestionScreen from "@/components/tv/TrueOrFalseQuestionScreen";
+import TrueOrFalseResultsScreen from "@/components/tv/TrueOrFalseResultsScreen";
 
 type Phase = "lobby" | "question" | "results" | "leaderboard" | "final";
-type QuestionType = "multiple_choice" | "ordering" | "typing_blitz";
+type QuestionType = "multiple_choice" | "ordering" | "typing_blitz" | "true_or_false";
 
 interface Player {
   id: string;
@@ -67,6 +69,15 @@ interface TypingBlitzRosterPlayer {
   name: string;
 }
 
+interface TrueOrFalsePlayerResult {
+  id: string;
+  name: string;
+  selection: boolean | undefined;
+  correct: boolean;
+  points: number;
+  totalScore: number;
+}
+
 interface LeaderboardEntry {
   id: string;
   name: string;
@@ -103,6 +114,13 @@ export default function TVPage() {
   const [typingProgress, setTypingProgress] = useState<Map<string, number>>(new Map());
   const [typingPlayerResults, setTypingPlayerResults] = useState<TypingBlitzPlayerResult[]>([]);
   const [typingValidAnswers, setTypingValidAnswers] = useState<string[]>([]);
+
+  // True or False state
+  const [trueOrFalseCorrect, setTrueOrFalseCorrect] = useState<boolean>(false);
+  const [trueOrFalseExplanation, setTrueOrFalseExplanation] = useState<string | undefined>(undefined);
+  const [trueOrFalseResults, setTrueOrFalseResults] = useState<TrueOrFalsePlayerResult[]>([]);
+  const [trueOrFalseTrueCount, setTrueOrFalseTrueCount] = useState(0);
+  const [trueOrFalseFalseCount, setTrueOrFalseFalseCount] = useState(0);
 
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
@@ -148,6 +166,8 @@ export default function TVPage() {
       } else if (data.type === "typing_blitz") {
         setQuestionType("typing_blitz");
         setTypingRoster(data.players ?? []);
+      } else if (data.type === "true_or_false") {
+        setQuestionType("true_or_false");
       } else {
         setQuestionType("multiple_choice");
         setOptions(data.options);
@@ -187,6 +207,13 @@ export default function TVPage() {
         setQuestionType("typing_blitz");
         setTypingValidAnswers(data.validAnswers ?? []);
         setTypingPlayerResults(data.playerResults ?? []);
+      } else if (data.type === "true_or_false") {
+        setQuestionType("true_or_false");
+        setTrueOrFalseCorrect(data.correctAnswer);
+        setTrueOrFalseExplanation(data.explanation);
+        setTrueOrFalseTrueCount(data.trueCount ?? 0);
+        setTrueOrFalseFalseCount(data.falseCount ?? 0);
+        setTrueOrFalseResults(data.playerResults ?? []);
       } else {
         setQuestionType("multiple_choice");
         setCorrectIndex(data.correctIndex);
@@ -212,6 +239,10 @@ export default function TVPage() {
       setTypingProgress(new Map());
       setTypingPlayerResults([]);
       setTypingRoster([]);
+      setTrueOrFalseResults([]);
+      setTrueOrFalseTrueCount(0);
+      setTrueOrFalseFalseCount(0);
+      setTrueOrFalseExplanation(undefined);
     });
 
     return () => {
@@ -268,6 +299,16 @@ export default function TVPage() {
           typingProgress={typingProgress}
         />
       )}
+      {phase === "question" && questionType === "true_or_false" && (
+        <TrueOrFalseQuestionScreen
+          questionNum={questionNum}
+          totalQuestions={totalQuestions}
+          text={questionText}
+          secondsLeft={secondsLeft}
+          answeredCount={answeredCount}
+          totalPlayers={players.length}
+        />
+      )}
       {phase === "results" && questionType === "multiple_choice" && (
         <ResultsScreen
           questionNum={questionNum}
@@ -295,6 +336,18 @@ export default function TVPage() {
           questionText={questionText}
           validAnswers={typingValidAnswers}
           playerResults={typingPlayerResults}
+        />
+      )}
+      {phase === "results" && questionType === "true_or_false" && (
+        <TrueOrFalseResultsScreen
+          questionNum={questionNum}
+          totalQuestions={totalQuestions}
+          questionText={questionText}
+          correctAnswer={trueOrFalseCorrect}
+          explanation={trueOrFalseExplanation}
+          trueCount={trueOrFalseTrueCount}
+          falseCount={trueOrFalseFalseCount}
+          playerResults={trueOrFalseResults}
         />
       )}
       {phase === "leaderboard" && (

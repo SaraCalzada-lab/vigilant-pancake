@@ -66,12 +66,12 @@ export default function OrderingQuestionScreen({
         {items.map((item, i) => (
           <div
             key={item.id}
-            className="glass-strong flex flex-col items-center gap-3 rounded-2xl p-4"
-            style={{ width: 180, height: 180 }}
+            className="glass-strong flex h-[180px] w-[180px] flex-col items-center gap-3 rounded-2xl p-4"
           >
             <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/15 text-sm font-bold text-white/60">
               {i + 1}
             </span>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={item.imageUrl}
               alt={item.label}

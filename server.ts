@@ -4,18 +4,19 @@ import { Server } from "socket.io";
 import { registerSocketHandlers, getLocalIp } from "./src/server/socket-handler";
 
 const dev = process.env.NODE_ENV !== "production";
-const app = next({ dev });
+const port = 3000;
+const httpServer = createServer();
+const app = next({ dev, httpServer, webpack: true, turbopack: false });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
-  const httpServer = createServer((req, res) => {
+  httpServer.on("request", (req, res) => {
     handle(req, res);
   });
 
   const io = new Server(httpServer);
   registerSocketHandlers(io);
 
-  const port = 3000;
   const localIp = getLocalIp();
 
   httpServer.listen(port, () => {
